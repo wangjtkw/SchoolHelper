@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+def findTeamIsModel = rootProject.ext.findTeamIsModel
+def consultIsModel = rootProject.ext.consultIsModel
+def communityIsModel = rootProject.ext.communityIsModel
+def mineIsModel = rootProject.ext.mineIsModel
+android {
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    defaultConfig {
+        applicationId rootProject.ext.android["applicationId"]
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    dataBinding {
+        enabled = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    //-------------------
+    //这部分不动
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies["kotlin"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["constraintlayout"]
+    testImplementation rootProject.ext.dependencies["junit"]
+    androidTestImplementation rootProject.ext.dependencies["runner"]
+    androidTestImplementation rootProject.ext.dependencies["espresso-core"]
+    implementation rootProject.ext.dependencies["core-ktx"]
+    implementation project(':utils')
+    if (consultIsModel) {
+        implementation project(':consult')
+    }
+    if (findTeamIsModel) {
+        implementation project(':findteam')
+    }
+    if (communityIsModel){
+        implementation project(':community')
+    }
+    if (mineIsModel) {
+        implementation project(':mine')
+    }
+    //-------------------
+    implementation rootProject.ext.dependencies["material"]
+
+
+}
